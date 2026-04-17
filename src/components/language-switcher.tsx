@@ -1,9 +1,7 @@
 "use client"
 
-import { useTransition } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { Globe } from "lucide-react"
-import { setLocale } from "@/app/actions/locale"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+
+const VALID_LOCALES = ["en", "hi", "te", "ml", "ta"]
 
 const LANGUAGES = [
   { code: "en", label: "English", script: "en" },
@@ -28,13 +28,13 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ variant = "full", className }: LanguageSwitcherProps) {
   const locale = useLocale()
   const t = useTranslations("language")
-  const [isPending, startTransition] = useTransition()
 
   function handleLocaleChange(code: string) {
-    startTransition(async () => {
-      await setLocale(code)
-      window.location.reload()
-    })
+    if (!VALID_LOCALES.includes(code)) return
+    // Set cookie directly in the browser — no server action needed
+    const maxAge = 60 * 60 * 24 * 365
+    document.cookie = `OLIVE_LOCALE=${code}; path=/; max-age=${maxAge}; SameSite=Lax`
+    window.location.reload()
   }
 
   const current = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0]
@@ -44,7 +44,6 @@ export function LanguageSwitcher({ variant = "full", className }: LanguageSwitch
       <DropdownMenuTrigger
         className={cn(
           "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground focus-visible:outline-none",
-          isPending && "opacity-60 pointer-events-none",
           className,
         )}
         aria-label={t("select")}

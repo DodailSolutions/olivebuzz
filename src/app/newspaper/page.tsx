@@ -212,7 +212,7 @@ export default async function NewspaperPage() {
           </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-2">
-            <LanguageSwitcher variant="icon" />
+            <LanguageSwitcher variant="icon" className="hidden sm:inline-flex" />
             <SearchButton
               className="hidden rounded-lg border border-stone-300 p-2 hover:bg-stone-50 sm:block"
               iconClassName="h-4 w-4 text-stone-600"
@@ -245,7 +245,10 @@ export default async function NewspaperPage() {
             </Link>
           ))}
           <div className="ml-auto flex shrink-0 items-center gap-2 pl-2">
-            <LanguageSwitcher variant="icon" className="text-white hover:bg-white/20" />
+            <LanguageSwitcher
+              variant="icon"
+              className="hidden sm:inline-flex text-white hover:bg-white/20"
+            />
             <Link
               href="/onboarding/school"
               className="shrink-0 rounded bg-[#e14851] px-3 py-1.5 text-sm font-bold hover:bg-[#c02030]"

@@ -84,7 +84,7 @@ export default async function Home() {
           <div className="flex items-center gap-3">
             <div className="overflow-hidden rounded-2xl border border-border/70 bg-white shadow-lg shadow-primary/15">
               <Image
-                src="/olive-buzz-icon.svg"
+                src="/olive-buzz-logo.svg"
                 alt="Olive Buzz logo"
                 width={40}
                 height={40}

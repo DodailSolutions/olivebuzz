@@ -65,13 +65,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/olive-buzz-icon.svg", type: "image/svg+xml", sizes: "any" },
+      { url: "/olive-buzz-logo.svg", type: "image/svg+xml" },
+      { url: "/olive-buzz-logo.svg", type: "image/svg+xml", sizes: "any" },
     ],
     apple: [
-      { url: "/apple-icon.svg", type: "image/svg+xml" },
+      { url: "/olive-buzz-logo.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/icon.svg",
+    shortcut: "/olive-buzz-logo.svg",
   },
   manifest: "/manifest.webmanifest",
   robots: {
@@ -103,7 +103,7 @@ const jsonLd = {
   "@type": "Organization",
   name: APP_NAME,
   url: APP_URL,
-  logo: `${APP_URL}/olive-buzz-icon.svg`,
+  logo: `${APP_URL}/olive-buzz-logo.svg`,
   description: APP_DESCRIPTION,
   sameAs: [],
   contactPoint: {

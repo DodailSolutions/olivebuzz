@@ -35,7 +35,7 @@ export default async function LoginPage({
       >
         <Link href="/" className="flex items-center gap-3">
           <div className="overflow-hidden rounded-2xl bg-white/20 p-1 backdrop-blur-sm">
-            <Image src="/olive-buzz-icon.svg" alt="Olive Buzz" width={40} height={40} priority />
+            <Image src="/olive-buzz-logo.svg" alt="Olive Buzz" width={40} height={40} priority />
           </div>
           <span className="text-lg font-black text-white tracking-tight">Olive Buzz</span>
         </Link>
@@ -75,7 +75,7 @@ export default async function LoginPage({
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         {/* Mobile logo */}
         <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
-          <Image src="/olive-buzz-icon.svg" alt="Olive Buzz" width={36} height={36} />
+          <Image src="/olive-buzz-logo.svg" alt="Olive Buzz" width={36} height={36} />
           <span className="font-black text-stone-900">Olive Buzz</span>
         </Link>
 

@@ -181,7 +181,7 @@ export default async function NewspaperPage() {
           <Link href="/" className="flex shrink-0 items-center gap-3">
             <div className="overflow-hidden rounded-xl border border-stone-200 shadow-sm">
               <Image
-                src="/olive-buzz-icon.svg"
+                src="/olive-buzz-logo.svg"
                 alt="Olive Buzz logo"
                 width={56}
                 height={56}

@@ -73,7 +73,7 @@ export function SuperAdminSidebar({ profile }: SuperAdminSidebarProps) {
       <div className="flex items-center gap-2.5 border-b border-[#2d3d1a] px-4 py-4">
         <div className="overflow-hidden rounded-xl border border-white/20 bg-white/10 p-0.5">
           <Image
-            src="/olive-buzz-icon.svg"
+            src="/olive-buzz-logo.svg"
             alt="Olive Buzz"
             width={32}
             height={32}

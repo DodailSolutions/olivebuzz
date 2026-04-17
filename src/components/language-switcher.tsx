@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import { Globe, Loader2, Check } from "lucide-react"
-import { setLocale } from "@/app/actions/locale"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+
+const VALID_LOCALES = ["en", "hi", "te", "ml", "ta"] as const
 
 const LANGUAGES = [
   { code: "en", label: "English", native: "English" },
@@ -30,11 +31,12 @@ export function LanguageSwitcher({ variant = "full", className }: LanguageSwitch
   const t = useTranslations("language")
   const [pending, setPending] = useState<string | null>(null)
 
-  async function handleLocaleChange(code: string) {
+  function handleLocaleChange(code: string) {
     if (code === locale || pending) return
+    if (!(VALID_LOCALES as readonly string[]).includes(code)) return
     setPending(code)
-    await setLocale(code)
-    // Full reload so the root layout (NextIntlClientProvider) re-renders with new messages
+    const maxAge = 60 * 60 * 24 * 365
+    document.cookie = `OLIVE_LOCALE=${code}; path=/; max-age=${maxAge}; SameSite=Lax`
     window.location.reload()
   }
 

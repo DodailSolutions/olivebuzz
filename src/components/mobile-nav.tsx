@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Bell, Home, LayoutDashboard, MessageCircle, Newspaper, User } from "lucide-react"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 const publicNavItems = [
   { name: "Home", href: "/", icon: Home },
@@ -51,6 +52,9 @@ export function MobileNav() {
             </Link>
           )
         })}
+        <div className="flex flex-col items-center justify-center w-16 gap-1">
+          <LanguageSwitcher variant="icon" />
+        </div>
       </nav>
     </div>
   )

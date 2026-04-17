@@ -35,9 +35,8 @@ export function LanguageSwitcher({ variant = "full", className }: LanguageSwitch
     if (code === locale || pending) return
     if (!(VALID_LOCALES as readonly string[]).includes(code)) return
     setPending(code)
-    const maxAge = 60 * 60 * 24 * 365
-    document.cookie = `OLIVE_LOCALE=${code}; path=/; max-age=${maxAge}; SameSite=Lax`
-    window.location.reload()
+    const returnTo = encodeURIComponent(window.location.pathname + window.location.search)
+    window.location.href = `/api/set-locale?locale=${code}&returnTo=${returnTo}`
   }
 
   const current = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0]

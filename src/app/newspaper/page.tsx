@@ -15,6 +15,7 @@ import { APP_NAME } from "@/lib/constants"
 import { getPublishedPosts } from "@/lib/data/queries"
 import { SearchButton } from "@/components/newspaper/search-button"
 import { CreativeSubmitDialog } from "@/components/newspaper/creative-submit-dialog"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 export const metadata: Metadata = {
   title: "Digital Newspaper | Olive Buzz",
@@ -211,6 +212,7 @@ export default async function NewspaperPage() {
           </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-2">
+            <LanguageSwitcher variant="icon" />
             <SearchButton
               className="hidden rounded-lg border border-stone-300 p-2 hover:bg-stone-50 sm:block"
               iconClassName="h-4 w-4 text-stone-600"
@@ -243,6 +245,7 @@ export default async function NewspaperPage() {
             </Link>
           ))}
           <div className="ml-auto flex shrink-0 items-center gap-2 pl-2">
+            <LanguageSwitcher variant="icon" className="text-white hover:bg-white/20" />
             <Link
               href="/onboarding/school"
               className="shrink-0 rounded bg-[#e14851] px-3 py-1.5 text-sm font-bold hover:bg-[#c02030]"

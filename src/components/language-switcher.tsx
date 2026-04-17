@@ -1,9 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { useLocale, useTranslations } from "next-intl"
-import { Globe } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useTransition } from "react"
+import { Globe, Loader2, Check } from "lucide-react"
 import { setLocale } from "@/app/actions/locale"
 import {
   DropdownMenu,
@@ -14,11 +13,11 @@ import {
 import { cn } from "@/lib/utils"
 
 const LANGUAGES = [
-  { code: "en", label: "English", script: "en" },
-  { code: "hi", label: "हिंदी", script: "hi" },
-  { code: "te", label: "తెలుగు", script: "te" },
-  { code: "ml", label: "മലയാളം", script: "ml" },
-  { code: "ta", label: "தமிழ்", script: "ta" },
+  { code: "en", label: "English", native: "English" },
+  { code: "hi", label: "Hindi", native: "हिंदी" },
+  { code: "te", label: "Telugu", native: "తెలుగు" },
+  { code: "ml", label: "Malayalam", native: "മലയാളം" },
+  { code: "ta", label: "Tamil", native: "தமிழ்" },
 ] as const
 
 interface LanguageSwitcherProps {
@@ -29,55 +28,74 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ variant = "full", className }: LanguageSwitcherProps) {
   const locale = useLocale()
   const t = useTranslations("language")
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
+  const [pending, setPending] = useState<string | null>(null)
 
-  function handleLocaleChange(code: string) {
-    startTransition(async () => {
-      await setLocale(code)
-      router.refresh()
-    })
+  async function handleLocaleChange(code: string) {
+    if (code === locale || pending) return
+    setPending(code)
+    await setLocale(code)
+    // Full reload so the root layout (NextIntlClientProvider) re-renders with new messages
+    window.location.reload()
   }
 
   const current = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0]
+  const isLoading = pending !== null
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground focus-visible:outline-none",
-          isPending && "opacity-50 pointer-events-none",
+          "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:bg-accent hover:text-foreground focus-visible:outline-none",
+          isLoading && "opacity-60 pointer-events-none",
           className,
         )}
         aria-label={t("select")}
+        disabled={isLoading}
       >
-        <Globe className="h-4 w-4 shrink-0" />
+        {isLoading ? (
+          <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+        ) : (
+          <Globe className="h-4 w-4 shrink-0" />
+        )}
         {variant === "full" && (
-          <span lang={current.script}>{current.label}</span>
+          <span lang={current.code}>{current.native}</span>
         )}
         {variant === "icon" && (
-          <span className="text-xs font-bold uppercase tracking-wide">{locale}</span>
+          <span className="text-xs font-bold uppercase tracking-wide">
+            {pending ?? locale}
+          </span>
         )}
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="min-w-[140px]">
-        {LANGUAGES.map((lang) => (
-          <DropdownMenuItem
-            key={lang.code}
-            onSelect={() => handleLocaleChange(lang.code)}
-            className={cn(
-              "flex items-center justify-between gap-3 cursor-pointer",
-              locale === lang.code && "text-primary font-semibold bg-primary/5",
-            )}
-            lang={lang.script}
-          >
-            <span>{lang.label}</span>
-            {locale === lang.code && (
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            )}
-          </DropdownMenuItem>
-        ))}
+      <DropdownMenuContent align="end" className="min-w-[160px]">
+        {LANGUAGES.map((lang) => {
+          const isActive = locale === lang.code
+          const isThisPending = pending === lang.code
+          return (
+            <DropdownMenuItem
+              key={lang.code}
+              onSelect={() => handleLocaleChange(lang.code)}
+              className={cn(
+                "flex items-center justify-between gap-3 cursor-pointer",
+                isActive && "text-primary font-semibold bg-primary/5",
+                isThisPending && "opacity-60",
+              )}
+              disabled={isLoading}
+            >
+              <div className="flex flex-col">
+                <span lang={lang.code}>{lang.native}</span>
+                <span className="text-[10px] text-muted-foreground">{lang.label}</span>
+              </div>
+              {isThisPending ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
+              ) : isActive ? (
+                <Check className="h-3.5 w-3.5 text-primary" />
+              ) : null}
+            </DropdownMenuItem>
+          )
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }
+

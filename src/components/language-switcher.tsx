@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useLocale, useTranslations } from "next-intl"
+import { useRouter } from "next/navigation"
 import { Globe, Loader2, Check } from "lucide-react"
 import {
   DropdownMenu,
@@ -30,13 +31,20 @@ export function LanguageSwitcher({ variant = "full", className }: LanguageSwitch
   const locale = useLocale()
   const t = useTranslations("language")
   const [pending, setPending] = useState<string | null>(null)
+  const router = useRouter()
+
+  // Clear loading state once the locale actually changes
+  useEffect(() => {
+    setPending(null)
+  }, [locale])
 
   function handleLocaleChange(code: string) {
     if (code === locale || pending) return
     if (!(VALID_LOCALES as readonly string[]).includes(code)) return
     setPending(code)
-    const returnTo = encodeURIComponent(window.location.pathname + window.location.search)
-    window.location.href = `/api/set-locale?locale=${code}&returnTo=${returnTo}`
+    const maxAge = 60 * 60 * 24 * 365
+    document.cookie = `OLIVE_LOCALE=${code}; path=/; max-age=${maxAge}; SameSite=Lax`
+    router.refresh()
   }
 
   const current = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0]

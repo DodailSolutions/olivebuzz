@@ -15,13 +15,10 @@ import {
   Users,
   Video,
 } from "lucide-react"
-import {
-  APP_DESCRIPTION,
-  APP_NAME,
-  NEWSPAPER_FEATURED_STORY,
-  STATS,
-} from "@/lib/constants"
+import { getTranslations } from "next-intl/server"
+import { APP_NAME, NEWSPAPER_FEATURED_STORY } from "@/lib/constants"
 import { getLandingPageContent } from "@/lib/data/queries"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 const iconMap = {
   MessageCircle,
@@ -51,47 +48,32 @@ type LandingTestimonial = {
   avatar: string
 }
 
-const safetyHighlights = [
-  {
-    title: "Age-aware permissions",
-    description:
-      "Role-based access helps keep student, parent, teacher, and admin experiences protected.",
-    icon: Lock,
-  },
-  {
-    title: "Human + AI moderation",
-    description:
-      "Safety checks and educator review work together to keep school communities healthy.",
-    icon: Shield,
-  },
-  {
-    title: "Web and app ready",
-    description:
-      "The experience is mobile-first, touch-friendly, and prepared for installable app behavior.",
-    icon: Smartphone,
-  },
-]
-
-const feedPreview = [
-  {
-    title: "Science fair winners announced",
-    meta: "Greenwood Academy • School news",
-  },
-  {
-    title: "Grade 8 debate team shares highlights",
-    meta: "Teacher approved • 2 min read",
-  },
-  {
-    title: "Parent update: Friday transport changes",
-    meta: "Admin bulletin • Important",
-  },
-]
-
 export default async function Home() {
   const { features, howItWorks, testimonials } = await getLandingPageContent()
   const featureItems = features as LandingFeature[]
   const stepItems = howItWorks as LandingStep[]
   const testimonialItems = testimonials as LandingTestimonial[]
+
+  const t = await getTranslations()
+
+  const safetyHighlights = [
+    { title: t("safety.ageAware"), description: t("safety.ageAwareDesc"), icon: Lock },
+    { title: t("safety.humanAI"), description: t("safety.humanAIDesc"), icon: Shield },
+    { title: t("safety.webApp"), description: t("safety.webAppDesc"), icon: Smartphone },
+  ]
+
+  const feedPreview = [
+    { title: t("feed.science"), meta: t("feed.scienceMeta") },
+    { title: t("feed.debate"), meta: t("feed.debateMeta") },
+    { title: t("feed.transport"), meta: t("feed.transportMeta") },
+  ]
+
+  const stats = [
+    { value: "500+", label: t("stats.schools") },
+    { value: "200K+", label: t("stats.students") },
+    { value: "50K+", label: t("stats.articles") },
+    { value: "99.9%", label: t("stats.uptime") },
+  ]
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -112,37 +94,38 @@ export default async function Home() {
             </div>
             <div>
               <p className="text-sm font-semibold">{APP_NAME}</p>
-              <p className="text-xs text-muted-foreground">Safe school social platform</p>
+              <p className="text-xs text-muted-foreground">{t("nav.tagline")}</p>
             </div>
           </div>
 
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
             <Link href="/#platform" className="transition hover:text-foreground">
-              Platform
+              {t("nav.platform")}
             </Link>
             <Link href="/newspaper" className="transition hover:text-foreground">
-              Newspaper
+              {t("nav.newspaper")}
             </Link>
             <Link href="/#safety" className="transition hover:text-foreground">
-              Safety
+              {t("nav.safety")}
             </Link>
             <Link href="/#stories" className="transition hover:text-foreground">
-              Stories
+              {t("nav.stories")}
             </Link>
           </nav>
 
-          <div className="hidden shrink-0 items-center gap-3 sm:flex pl-2">
+          <div className="hidden shrink-0 items-center gap-2 sm:flex pl-2">
+            <LanguageSwitcher variant="icon" />
             <Link
               href="/newspaper"
               className="rounded-lg px-4 py-2 text-sm font-bold text-accent-foreground hover:bg-black/5"
             >
-              School News
+              {t("nav.schoolNews")}
             </Link>
             <Link
               href="/onboarding/school"
               className="rounded-lg bg-stone-900 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-stone-800"
             >
-              Request demo
+              {t("nav.requestDemo")}
             </Link>
           </div>
         </div>
@@ -153,16 +136,15 @@ export default async function Home() {
           <div className="space-y-6 animate-in slide-in-from-bottom-8 fade-in duration-700 fill-mode-both">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary shadow-sm">
               <CheckCircle2 className="h-4 w-4" />
-              Built for web, mobile, and school trust
+              {t("hero.badge")}
             </div>
 
             <div className="space-y-4">
               <h1 className="max-w-3xl text-5xl font-black tracking-tighter sm:text-6xl lg:text-[4.5rem] text-stone-900 dark:text-stone-50 pb-2 leading-[1.05]">
-                A safer digital campus for every school community.
+                {t("hero.title")}
               </h1>
               <p className="max-w-2xl text-xl leading-relaxed text-muted-foreground font-medium">
-                {APP_DESCRIPTION} Olive Buzz combines community updates, student journalism,
-                messaging, and moderation into one calm and modern experience.
+                {t("hero.subtitle")}
               </p>
             </div>
 
@@ -171,19 +153,19 @@ export default async function Home() {
                 href="/onboarding/school"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 font-bold text-primary-foreground shadow-xl shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-primary/40"
               >
-                Start school onboarding
+                {t("hero.ctaPrimary")}
                 <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/newspaper"
                 className="inline-flex items-center justify-center rounded-full border border-border bg-card px-7 py-3.5 font-bold shadow-sm transition hover:bg-accent"
               >
-                Read the newspaper
+                {t("hero.ctaSecondary")}
               </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-2 sm:grid-cols-4">
-              {STATS.map((stat) => (
+              {stats.map((stat) => (
                 <div key={stat.label} className="glass-card rounded-2xl p-4">
                   <p className="text-2xl font-bold text-gradient">{stat.value}</p>
                   <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
@@ -207,11 +189,11 @@ export default async function Home() {
 
               <div className="mb-4 flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold">Community Pulse</p>
-                  <p className="text-xs text-muted-foreground">Today’s approved highlights</p>
+                  <p className="text-sm font-semibold">{t("pulse.title")}</p>
+                  <p className="text-xs text-muted-foreground">{t("pulse.subtitle")}</p>
                 </div>
                 <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                  Live
+                  {t("pulse.live")}
                 </span>
               </div>
 
@@ -227,29 +209,25 @@ export default async function Home() {
                         <BellRing className="h-4 w-4" />
                       </div>
                     </div>
-                      <div className="flex items-center gap-4 text-[11px] font-medium text-muted-foreground">
-                        <span>Moderated</span>
-                        <span>Family visible</span>
-                      </div>
+                    <div className="flex items-center gap-4 text-[11px] font-medium text-muted-foreground">
+                      <span>{t("pulse.moderated")}</span>
+                      <span>{t("pulse.familyVisible")}</span>
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl bg-primary p-4 text-primary-foreground">
-                  <p className="text-sm font-semibold">Daily digest</p>
-                  <p className="mt-1 text-sm opacity-90">
-                    Notices, stories, and highlights delivered clearly to families.
-                  </p>
+                  <p className="text-sm font-semibold">{t("pulse.dailyDigest")}</p>
+                  <p className="mt-1 text-sm opacity-90">{t("pulse.dailyDigestDesc")}</p>
                 </div>
                 <div className="rounded-2xl border border-border/70 bg-background/90 p-4">
                   <div className="mb-2 flex items-center gap-2 font-semibold">
                     <Users className="h-4 w-4 text-primary" />
-                    Trusted circles
+                    {t("pulse.trustedCircles")}
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    School, class, and role-based visibility keeps communication focused.
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t("pulse.trustedCirclesDesc")}</p>
                 </div>
               </div>
             </div>
@@ -259,10 +237,10 @@ export default async function Home() {
         <section id="platform" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
           <div className="mb-6 max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary">
-              Platform experience
+              {t("platform.label")}
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-              Designed to feel simple, warm, and school-first.
+              {t("platform.title")}
             </h2>
           </div>
 
@@ -292,27 +270,22 @@ export default async function Home() {
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-3xl bg-primary p-6 text-primary-foreground shadow-xl shadow-primary/20">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] opacity-85">
-                Safety by design
+                {t("safety.label")}
               </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight">
-                Strong guardrails without sacrificing usability.
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-6 opacity-90">
-                Olive Buzz is being structured around secure defaults, school moderation,
-                privacy-conscious sharing, and cross-device consistency.
-              </p>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight">{t("safety.title")}</h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 opacity-90">{t("safety.desc")}</p>
               <div className="mt-5 space-y-3 text-sm">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
-                  Safer communication flows for minors
+                  {t("safety.point1")}
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
-                  Cleaner permissions for staff and families
+                  {t("safety.point2")}
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
-                  Installable app readiness for mobile use
+                  {t("safety.point3")}
                 </div>
               </div>
             </div>
@@ -327,9 +300,7 @@ export default async function Home() {
                       <Icon className="h-5 w-5 transition-transform duration-500 group-hover:scale-110" />
                     </div>
                     <h3 className="text-lg font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      {item.description}
-                    </p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.description}</p>
                   </div>
                 )
               })}
@@ -341,7 +312,7 @@ export default async function Home() {
           <div className="mb-6 flex items-center gap-2 text-primary">
             <Globe className="h-5 w-5" />
             <span className="text-sm font-semibold uppercase tracking-[0.22em]">
-              How it works
+              {t("howItWorks.label")}
             </span>
           </div>
 
@@ -364,10 +335,10 @@ export default async function Home() {
               <div className="max-w-2xl">
                 <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 text-sm font-semibold text-primary">
                   <Newspaper className="h-4 w-4" />
-                  Digital newspaper
+                  {t("newspaper.label")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  Launch your school’s daily edition.
+                  {t("newspaper.title")}
                 </h2>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
                   {NEWSPAPER_FEATURED_STORY.excerpt}
@@ -386,7 +357,7 @@ export default async function Home() {
                   href="/newspaper"
                   className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary"
                 >
-                  Open digital newspaper
+                  {t("newspaper.open")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -398,14 +369,14 @@ export default async function Home() {
           <div className="mb-6 flex items-center gap-2 text-primary">
             <Newspaper className="h-5 w-5" />
             <span className="text-sm font-semibold uppercase tracking-[0.22em]">
-              Community stories
+              {t("stories.label")}
             </span>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-3">
             {testimonialItems.map((item) => (
               <div key={item.author} className="group glass-card rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5">
-                <p className="text-sm leading-6 text-muted-foreground italic tracking-wide transition-colors duration-300 group-hover:text-foreground">“{item.quote}”</p>
+                <p className="text-sm leading-6 text-muted-foreground italic tracking-wide transition-colors duration-300 group-hover:text-foreground">"{item.quote}"</p>
                 <div className="mt-6 flex items-center gap-4 border-t border-border/40 pt-4">
                   <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary transition-all duration-500 group-hover:scale-110 group-hover:bg-primary/20">
                     {item.avatar}
@@ -425,15 +396,12 @@ export default async function Home() {
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
                 <p className="text-sm font-semibold uppercase tracking-[0.22em] opacity-85">
-                  Ready to launch
+                  {t("launch.label")}
                 </p>
                 <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-                  Olive Buzz now has a stronger product foundation.
+                  {t("launch.title")}
                 </h2>
-                <p className="mt-3 text-sm leading-6 opacity-90 sm:text-base">
-                  This first pass delivers a modern public experience, better trust messaging,
-                  responsive layouts, and installable-app preparation for phones and tablets.
-                </p>
+                <p className="mt-3 text-sm leading-6 opacity-90 sm:text-base">{t("launch.desc")}</p>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -442,13 +410,13 @@ export default async function Home() {
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-primary transition hover:opacity-90"
                 >
                   <Video className="h-4 w-4" />
-                  View highlights
+                  {t("launch.highlights")}
                 </Link>
                 <Link
                   href="#safety"
                   className="inline-flex items-center justify-center rounded-full border border-white/30 px-5 py-3 font-semibold text-white transition hover:bg-white/10"
                 >
-                  Security focus
+                  {t("launch.security")}
                 </Link>
               </div>
             </div>
@@ -458,3 +426,4 @@ export default async function Home() {
     </div>
   )
 }
+

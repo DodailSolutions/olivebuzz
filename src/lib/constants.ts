@@ -1,7 +1,37 @@
 export const APP_NAME = "Olive Buzz"
 export const APP_DESCRIPTION =
-  "A safe, private, and connected social media & news platform for schools, students, parents, and educators."
+  "Olive Buzz is a safe, private school social media and news platform connecting students, parents, teachers and administrators. Age-appropriate content, real-time updates, and community-first design — built for schools worldwide."
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+
+export const SITE_KEYWORDS = [
+  // Core value props
+  "safe school social media",
+  "school community platform",
+  "student social network",
+  "private school app",
+  "education social platform",
+  // User segments
+  "school communication app",
+  "parent teacher communication",
+  "student news platform",
+  "classroom community",
+  "school parent portal",
+  // Features
+  "school newspaper app",
+  "student newsroom",
+  "age-appropriate social media",
+  "school content moderation",
+  "student safety online",
+  // Long-tail / intent
+  "safe social media for students",
+  "social platform for schools",
+  "school community news",
+  "private school network",
+  "K-12 social platform",
+  "school app for parents",
+  "educational social network",
+  "school news feed app",
+]
 
 export const REACTION_EMOJIS: Record<string, string> = {
   like: "👍",

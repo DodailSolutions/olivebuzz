@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "platform": "Platform",
+    "newspaper": "Newspaper",
+    "safety": "Safety",
+    "stories": "Stories",
+    "schoolNews": "School News",
+    "requestDemo": "Request demo",
+    "tagline": "Safe school social platform"
+  },
+  "hero": {
+    "badge": "Built for web, mobile, and school trust",
+    "title": "A safer digital campus for every school community.",
+    "subtitle": "Olive Buzz combines community updates, student journalism, messaging, and moderation into one calm and modern experience.",
+    "ctaPrimary": "Start school onboarding",
+    "ctaSecondary": "Read the newspaper"
+  },
+  "pulse": {
+    "title": "Community Pulse",
+    "subtitle": "Today's approved highlights",
+    "live": "Live",
+    "moderated": "Moderated",
+    "familyVisible": "Family visible",
+    "dailyDigest": "Daily digest",
+    "dailyDigestDesc": "Notices, stories, and highlights delivered clearly to families.",
+    "trustedCircles": "Trusted circles",
+    "trustedCirclesDesc": "School, class, and role-based visibility keeps communication focused."
+  },
+  "feed": {
+    "science": "Science fair winners announced",
+    "scienceMeta": "Greenwood Academy • School news",
+    "debate": "Grade 8 debate team shares highlights",
+    "debateMeta": "Teacher approved • 2 min read",
+    "transport": "Parent update: Friday transport changes",
+    "transportMeta": "Admin bulletin • Important"
+  },
+  "platform": {
+    "label": "Platform experience",
+    "title": "Designed to feel simple, warm, and school-first."
+  },
+  "safety": {
+    "label": "Safety by design",
+    "title": "Strong guardrails without sacrificing usability.",
+    "desc": "Olive Buzz is structured around secure defaults, school moderation, privacy-conscious sharing, and cross-device consistency.",
+    "point1": "Safer communication flows for minors",
+    "point2": "Cleaner permissions for staff and families",
+    "point3": "Installable app readiness for mobile use",
+    "ageAware": "Age-aware permissions",
+    "ageAwareDesc": "Role-based access helps keep student, parent, teacher, and admin experiences protected.",
+    "humanAI": "Human + AI moderation",
+    "humanAIDesc": "Safety checks and educator review work together to keep school communities healthy.",
+    "webApp": "Web and app ready",
+    "webAppDesc": "The experience is mobile-first, touch-friendly, and prepared for installable app behavior."
+  },
+  "howItWorks": {
+    "label": "How it works"
+  },
+  "stories": {
+    "label": "Community stories"
+  },
+  "newspaper": {
+    "label": "Digital newspaper",
+    "title": "Launch your school's daily edition.",
+    "open": "Open digital newspaper"
+  },
+  "launch": {
+    "label": "Ready to launch",
+    "title": "Olive Buzz now has a stronger product foundation.",
+    "desc": "This first pass delivers a modern public experience, better trust messaging, responsive layouts, and installable-app preparation for phones and tablets.",
+    "highlights": "View highlights",
+    "security": "Security focus"
+  },
+  "stats": {
+    "schools": "Schools",
+    "students": "Students",
+    "articles": "Articles Published",
+    "uptime": "Uptime"
+  },
+  "language": {
+    "select": "Language",
+    "en": "English",
+    "hi": "हिंदी",
+    "te": "తెలుగు",
+    "ml": "മലയാളം",
+    "ta": "தமிழ்"
+  }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background: olive green rounded square -->
+  <rect width="512" height="512" rx="112" fill="#808b47"/>
+
+  <!-- Olive branch stem -->
+  <path d="M 256 96 C 230 160 220 230 240 340" stroke="#f2b239" stroke-width="22" fill="none" stroke-linecap="round"/>
+
+  <!-- Olive leaf left -->
+  <ellipse cx="205" cy="175" rx="40" ry="18" fill="#c4e88a" opacity="0.9" transform="rotate(-45 205 175)"/>
+  <!-- Olive leaf right -->
+  <ellipse cx="225" cy="255" rx="40" ry="18" fill="#c4e88a" opacity="0.9" transform="rotate(-20 225 255)"/>
+  <!-- Olive fruit -->
+  <circle cx="240" cy="338" r="18" fill="#f2b239"/>
+  <circle cx="240" cy="338" r="10" fill="#c4891a"/>
+
+  <!-- "B" letterform (right side) -->
+  <!-- Vertical stroke -->
+  <rect x="290" y="130" width="28" height="250" rx="8" fill="white"/>
+  <!-- Top bump -->
+  <path d="M 318 130 Q 395 130 395 205 Q 395 255 318 255" stroke="white" stroke-width="28" fill="none" stroke-linecap="round"/>
+  <!-- Bottom bump -->
+  <path d="M 318 255 Q 405 255 405 330 Q 405 380 318 380" stroke="white" stroke-width="28" fill="none" stroke-linecap="round"/>
+</svg>

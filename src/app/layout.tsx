@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, Outfit } from "next/font/google"
-import { APP_DESCRIPTION, APP_NAME, APP_URL } from "@/lib/constants"
+import { NextIntlClientProvider } from "next-intl"
+import { getLocale, getMessages } from "next-intl/server"
+import { APP_DESCRIPTION, APP_NAME, APP_URL, SITE_KEYWORDS } from "@/lib/constants"
 import { MobileNav } from "@/components/mobile-nav"
 import "./globals.css"
 
@@ -14,33 +16,47 @@ const outfitSans = Outfit({
   subsets: ["latin"],
 })
 
+const ogImage = {
+  url: `${APP_URL}/opengraph-image`,
+  width: 1200,
+  height: 630,
+  alt: `${APP_NAME} — Safe School Social Platform`,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: APP_NAME,
+    default: `${APP_NAME} — Safe Social & News Platform for Schools`,
     template: `%s | ${APP_NAME}`,
   },
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
   referrer: "strict-origin-when-cross-origin",
-  keywords: [
-    "education social platform",
-    "school community",
-    "student news",
-    "safe school app",
-    "parent communication",
-  ],
+  keywords: SITE_KEYWORDS,
+  authors: [{ name: APP_NAME, url: APP_URL }],
+  creator: APP_NAME,
+  publisher: APP_NAME,
+  category: "Education",
+  classification: "Education / Social Platform",
+  alternates: {
+    canonical: APP_URL,
+  },
   openGraph: {
-    title: APP_NAME,
+    title: `${APP_NAME} — Safe Social & News Platform for Schools`,
     description: APP_DESCRIPTION,
     url: APP_URL,
     siteName: APP_NAME,
     type: "website",
+    locale: "en_US",
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: APP_NAME,
+    title: `${APP_NAME} — Safe Social & News Platform for Schools`,
     description: APP_DESCRIPTION,
+    images: [ogImage.url],
+    creator: "@olivebuzz",
+    site: "@olivebuzz",
   },
   appleWebApp: {
     capable: true,
@@ -48,8 +64,26 @@ export const metadata: Metadata = {
     title: APP_NAME,
   },
   icons: {
-    icon: "/olive-buzz-icon.svg",
-    apple: "/olive-buzz-icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/olive-buzz-icon.svg", type: "image/svg+xml", sizes: "any" },
+    ],
+    apple: [
+      { url: "/apple-icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/icon.svg",
+  },
+  manifest: "/manifest.webmanifest",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 }
 
@@ -57,23 +91,59 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#808b47",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#808b47" },
+    { media: "(prefers-color-scheme: dark)", color: "#57714d" },
+  ],
 }
 
-export default function RootLayout({
+// JSON-LD structured data — Organization schema
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: APP_NAME,
+  url: APP_URL,
+  logo: `${APP_URL}/olive-buzz-icon.svg`,
+  description: APP_DESCRIPTION,
+  sameAs: [],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    url: `${APP_URL}/contact`,
+    availableLanguage: "English",
+  },
+  offers: {
+    "@type": "Offer",
+    description: "Safe school community and news platform for students, parents and educators",
+    url: `${APP_URL}/for-schools`,
+  },
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${interSans.variable} ${outfitSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="flex min-h-full flex-col pb-20 md:pb-0" suppressHydrationWarning>
-        {children}
-        <MobileNav />
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          {children}
+          <MobileNav />
+        </NextIntlClientProvider>
       </body>
     </html>
   )

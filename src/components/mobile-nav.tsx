@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Bell, Home, LayoutDashboard, MessageCircle, Newspaper, User } from "lucide-react"
 import { LanguageSwitcher } from "@/components/language-switcher"
+import { Fragment } from "react"
 
 const publicNavItems = [
   { name: "Home", href: "/", icon: Home },
@@ -25,10 +26,18 @@ export function MobileNav() {
   const navItems = isDashboard ? dashboardNavItems : publicNavItems
 
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 z-50 md:hidden glass border-t border-border/40"
-      style={{ paddingBottom: "max(calc(env(safe-area-inset-bottom) - 10px), 0px)" }}
-    >
+    <Fragment>
+      {/* Floating language switcher */}
+      <div className="fixed bottom-20 right-4 z-50 md:hidden">
+        <div className="rounded-full bg-card border border-border/60 shadow-lg shadow-black/10 backdrop-blur-sm">
+          <LanguageSwitcher variant="icon" />
+        </div>
+      </div>
+
+      <div
+        className="fixed bottom-0 left-0 right-0 z-50 md:hidden glass border-t border-border/40"
+        style={{ paddingBottom: "max(calc(env(safe-area-inset-bottom) - 10px), 0px)" }}
+      >
       <nav className="flex h-16 items-center justify-around px-2 pt-1 pb-1">
         {navItems.map((item) => {
           const isActive =
@@ -52,10 +61,8 @@ export function MobileNav() {
             </Link>
           )
         })}
-        <div className="flex flex-col items-center justify-center w-16 gap-1">
-          <LanguageSwitcher variant="icon" />
-        </div>
       </nav>
-    </div>
+      </div>
+    </Fragment>
   )
 }

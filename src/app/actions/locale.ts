@@ -1,7 +1,6 @@
 "use server"
 
 import { cookies } from "next/headers"
-import { revalidatePath } from "next/cache"
 
 const VALID_LOCALES = ["en", "hi", "te", "ml", "ta"] as const
 
@@ -15,6 +14,4 @@ export async function setLocale(locale: string) {
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   })
-
-  revalidatePath("/", "layout")
 }

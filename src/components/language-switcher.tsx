@@ -2,7 +2,6 @@
 
 import { useTransition } from "react"
 import { useLocale, useTranslations } from "next-intl"
-import { useRouter } from "next/navigation"
 import { Globe } from "lucide-react"
 import { setLocale } from "@/app/actions/locale"
 import {
@@ -29,13 +28,12 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ variant = "full", className }: LanguageSwitcherProps) {
   const locale = useLocale()
   const t = useTranslations("language")
-  const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
   function handleLocaleChange(code: string) {
     startTransition(async () => {
       await setLocale(code)
-      router.refresh()
+      window.location.reload()
     })
   }
 

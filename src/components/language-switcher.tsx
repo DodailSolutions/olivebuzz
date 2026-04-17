@@ -83,7 +83,7 @@ export function LanguageSwitcher({ variant = "full", className }: LanguageSwitch
           return (
             <DropdownMenuItem
               key={lang.code}
-              onSelect={() => handleLocaleChange(lang.code)}
+              onClick={() => handleLocaleChange(lang.code)}
               className={cn(
                 "flex items-center justify-between gap-3 cursor-pointer",
                 isActive && "text-primary font-semibold bg-primary/5",

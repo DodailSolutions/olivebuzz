@@ -6,6 +6,8 @@ import { APP_DESCRIPTION, APP_NAME, APP_URL, SITE_KEYWORDS } from "@/lib/constan
 import { MobileNav } from "@/components/mobile-nav"
 import "./globals.css"
 
+export const dynamic = "force-dynamic"
+
 const interSans = Inter({
   variable: "--font-inter",
   subsets: ["latin"],

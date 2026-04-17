@@ -1,5 +1,5 @@
 import { getRequestConfig } from "next-intl/server"
-import { headers } from "next/headers"
+import { cookies } from "next/headers"
 
 const VALID_LOCALES = ["en", "hi", "te", "ml", "ta"] as const
 type Locale = (typeof VALID_LOCALES)[number]
@@ -14,9 +14,8 @@ const messageLoaders: Record<Locale, () => Promise<{ default: Record<string, unk
 }
 
 export default getRequestConfig(async () => {
-  // Read locale from the request header set by middleware (reliable, never cached)
-  const headerStore = await headers()
-  const raw = headerStore.get("x-locale") ?? "en"
+  const cookieStore = await cookies()
+  const raw = cookieStore.get("OLIVE_LOCALE")?.value ?? "en"
   const locale: Locale = VALID_LOCALES.includes(raw as Locale) ? (raw as Locale) : "en"
 
   const messages = (await messageLoaders[locale]()).default
